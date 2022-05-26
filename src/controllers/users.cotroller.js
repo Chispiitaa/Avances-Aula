@@ -44,6 +44,7 @@ usersCtrl.register = async (req, res) => {
     const nameUser = await User.findOne({username: username});
     if (nameUser){
       console.log('usuario repetido');
+      
       res.redirect('/login');
     }else{
     const newUser = new User({name, appe, email, username, password});
@@ -244,5 +245,38 @@ usersCtrl.actualizar = async (req, res) => {
     } catch (error) {
       console.log(error.message);
     }
+  }
+
+  usersCtrl.findUser = async (req, res) => {
+    const usuarios = await User.find({roles:"62813ced2a6db0a60ee34690"});
+    res.render('tablausers', { usuarios });
+  }
+  
+  usersCtrl.edituser = (req,res)=>{
+      const id = req.body.id_editar
+      const name = req.body.nombre_editar
+      const appe = req.body.apellido_editar
+      const username = req.body.usuario_editar
+      const email = req.body.edad_editar
+      User.findByIdAndUpdate(id, {name, appe, email, username}, (error, usuario)=>{
+          if(error){
+              return res.status(500).json({
+                  message: 'Error actualizando al Usuario'
+              })
+          }
+          res.redirect('/findUser')
+      })
+  }
+  
+  usersCtrl.deleteuser = (req, res) =>{
+    const id = req.params.id
+      User.findByIdAndRemove(id, (error, usuario)=>{
+        if(error){
+            return res.status(500).json({
+                  message: 'Error eliminando al Usuario'
+            })
+        }
+        res.redirect('/findUser')
+      })
   }
 module.exports = usersCtrl;

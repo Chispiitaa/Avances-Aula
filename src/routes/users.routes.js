@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 
 const { renderLoginForm, signin, register, logout, renderRegisterAdmin, adminregister,
-        renderTabUser, renderEditPerfil, actualizar, forgetLoad, forgetVerify, forgetPasswordLoad, resetPassword } = require('../controllers/users.cotroller.js')
+        renderTabUser, renderEditPerfil, actualizar, forgetLoad, forgetVerify, forgetPasswordLoad, resetPassword, findUser, edituser, deleteuser } = require('../controllers/users.cotroller.js')
 
 const { isnotAuthenticated, isAuthenticated } = require('../helpers/auth');
 
@@ -32,5 +32,10 @@ router.get('/forget-password', isnotAuthenticated, forgetPasswordLoad);
 
 router.post('/forget-password', resetPassword);
 
+router.get('/findUser', findUser);
+
+router.post('/edituser', edituser);
+
+router.get('/deleteuser/:id', deleteuser);
 
 module.exports = router;
